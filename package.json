@@ -10,7 +10,7 @@
     "start-dev": "node index.js --prod-with-dev-env",
     "client": "cd client && npm ci && npm run generate",
     "prod": "npm run client && npm ci && node index.js",
-    "build-linux": "echo 'Packaged/binary distribution is no longer supported. Use source install on target host.' && exit 1",
+    "build-linux": "build/linuxpackager",
     "deploy-linux": "node deploy/linux",
     "test": "mocha",
     "coverage": "nyc mocha"
