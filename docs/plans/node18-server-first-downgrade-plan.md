@@ -7,6 +7,7 @@
 - [x] Phase 1.1 Node/tooling pinning in CI/docs to Node 18.20.4.
 - [x] Phase 1.2 Remove/disable unsupported Docker and pkg/binary distribution paths.
 - [x] Phase 1.3 Keep source-install path as the only advertised/supported release path.
+- [x] Phase 0 blocker triage: removed ia32-incompatible `@tailwindcss/postcss` usage from client build pipeline.
 - [ ] Phase 0 baseline proof on Debian Bookworm i686 host.
 - [ ] Phase 2 server-core endpoint stabilization and smoke gates.
 - [ ] Phase 3 source install lifecycle hardening runbook.
