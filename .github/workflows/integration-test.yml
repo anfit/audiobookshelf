@@ -23,11 +23,8 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18.20.4
           cache: 'npm'
-
-      - name: install pkg (using yao-pkg fork for targeting node20)
-        run: npm install -g @yao-pkg/pkg
 
       - name: get client dependencies
         working-directory: client
@@ -40,12 +37,9 @@ jobs:
       - name: get server dependencies
         run: npm ci --only=production
 
-      - name: build binary
-        run: pkg -t node20-linux-x64 -o audiobookshelf .
-
-      - name: run audiobookshelf
+      - name: run audiobookshelf from source
         run: |
-          ./audiobookshelf &
+          node index.js &
           sleep 5
 
       - name: test if server is available

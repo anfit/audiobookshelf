@@ -1,6 +1,16 @@
 # Node 18.20.4 + Debian i686 (Bookworm) Source-Build Recovery Plan (Server-First)
 
 ## Goal
+
+## Execution status (this PR)
+
+- [x] Phase 1.1 Node/tooling pinning in CI/docs to Node 18.20.4.
+- [x] Phase 1.2 Remove/disable unsupported Docker and pkg/binary distribution paths.
+- [x] Phase 1.3 Keep source-install path as the only advertised/supported release path.
+- [ ] Phase 0 baseline proof on Debian Bookworm i686 host.
+- [ ] Phase 2 server-core endpoint stabilization and smoke gates.
+- [ ] Phase 3 source install lifecycle hardening runbook.
+
 Restore Audiobookshelf operation on a single, explicit baseline:
 
 - **Runtime:** Node.js **18.20.4**
@@ -107,24 +117,24 @@ Deliverable: reproducible, operator-friendly source deployment runbook.
 ## Concrete file-level implementation checklist
 
 ### Immediate first-wave edits
-- `readme.md`
+- [x] `readme.md`
   - Change manual setup requirement to Node **18.20.4**.
   - Add npm **9.2.0** note (conditional pinning).
   - Replace Docker-first instructions with source-build-first instructions.
-- `.github/workflows/*.yml`
+- [x] `.github/workflows/*.yml`
   - Set Node version to **18.20.4**.
   - Remove matrix/targets for dropped architectures and dropped distribution channels.
-- `package.json`
+- [x] `package.json`
   - Remove or deprecate scripts for Docker and `pkg` binary targets.
   - Keep scripts required for source build + server run + tests.
-- `build/linuxpackager` and related packaging metadata
+- [x] `build/linuxpackager` and related packaging metadata
   - Remove/archive if no packaged distribution is supported.
-- `Dockerfile`, `docker-compose.yml`
+- [x] `Dockerfile`, `docker-compose.yml`
   - Remove/archive or explicitly mark unsupported if Docker support is dropped.
 
 ### Optional cleanup follow-up
-- Add a lightweight `scripts/verify-target-host.sh` to precheck required tools/versions on the target server.
-- Add a concise `docs/source-install-bookworm-i686.md` runbook.
+- [ ] Add a lightweight `scripts/verify-target-host.sh` to precheck required tools/versions on the target server.
+- [ ] Add a concise `docs/source-install-bookworm-i686.md` runbook.
 
 ## Risk register
 

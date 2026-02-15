@@ -77,6 +77,8 @@ See [documentation](https://audiobookshelf.org/docs#book-directory-structure) fo
 
 # Installation
 
+Source-build-first deployment is the supported model for this repository. Build and run Audiobookshelf from source on the target host (Debian Bookworm i686 + Node.js 18.20.4 baseline).
+
 See [install docs](https://www.audiobookshelf.org/docs)
 
 <br />
@@ -419,7 +421,7 @@ You are now ready to start development!
 
 ### Manual Environment Setup
 
-If you don't want to use the dev container, you can still develop this project. First, you will need to install [NodeJs](https://nodejs.org/) (version 20) and [FFmpeg](https://ffmpeg.org/).
+If you don't want to use the dev container, you can still develop this project. First, you will need to install [NodeJs](https://nodejs.org/) (version 18.20.4), npm (version 9.2.0 when pinning for reproducible builds), and [FFmpeg](https://ffmpeg.org/).
 
 Next you will need to create a `dev.js` file in the project's root directory. This contains configuration information and paths unique to your development environment. You can find an example of this file in `.devcontainer/dev.js`.
 
