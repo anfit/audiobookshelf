@@ -9,6 +9,8 @@
     "start": "node index.js",
     "start-dev": "node index.js --prod-with-dev-env",
     "client": "cd client && npm ci && npm run generate",
+    "prod:prepare": "npm run client && npm ci",
+    "prod:start": "node index.js",
     "prod": "npm run client && npm ci && node index.js",
     "build-linux": "build/linuxpackager",
     "deploy-linux": "node deploy/linux",
