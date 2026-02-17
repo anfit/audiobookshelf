@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import Path from 'path'
+
 export default {
   data() {
     return {
@@ -173,6 +175,10 @@ export default {
           text: this.$strings.ButtonQuickEmbedMetadata,
           action: 'quick-embed'
         })
+        options.push({
+          text: this.$strings.ButtonUseFirstFilenameAsTitleAndSave,
+          action: 'first-filename-title-save'
+        })
       }
 
       options.push({
@@ -226,6 +232,52 @@ export default {
         this.batchRescan()
       } else if (action === 'download') {
         this.batchDownload()
+      } else if (action === 'first-filename-title-save') {
+        this.batchUseFirstFilenameAsTitleAndSave()
+      }
+    },
+    async batchUseFirstFilenameAsTitleAndSave() {
+      this.$store.commit('setProcessingBatch', true)
+
+      const libraryItemIds = this.selectedMediaItems.map((i) => i.id)
+      try {
+        const libraryItems = await this.$axios.$post(`/api/items/batch/get`, { libraryItemIds }).then((res) => res.libraryItems || [])
+        if (!libraryItems.length) {
+          this.$toast.error('No selected items found')
+          return
+        }
+
+        const updatePayloads = libraryItems
+          .map((item) => {
+            const firstAudioFilename = item.media?.audioFiles?.[0]?.metadata?.filename
+            if (!firstAudioFilename) return null
+
+            return {
+              id: item.id,
+              mediaPayload: {
+                metadata: {
+                  title: Path.basename(firstAudioFilename, Path.extname(firstAudioFilename))
+                }
+              }
+            }
+          })
+          .filter((item) => !!item)
+
+        if (!updatePayloads.length) {
+          this.$toast.error('No selected items had audio files')
+          return
+        }
+
+        const result = await this.$axios.$post(`/api/items/batch/update`, updatePayloads)
+        const updates = result?.updates || 0
+        this.$toast.success(this.$getString('ToastBatchUpdatedItems', [updates]))
+        this.cancelSelectionMode()
+      } catch (error) {
+        console.error('Failed to set title from first filename and save metadata', error)
+        const errorMsg = error.response?.data || 'Failed to set title from first filename'
+        this.$toast.error(errorMsg)
+      } finally {
+        this.$store.commit('setProcessingBatch', false)
       }
     },
     async batchRescan() {
